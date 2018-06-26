@@ -157,7 +157,9 @@ class FLM {
 	public function dirlist() {
 
 		$this->xmlrpc->addCommand( new rXMLRPCCommand('execute_capture', 
-					array('find', $this->workdir, '-mindepth', '1', '-maxdepth', '1', '-printf', '%y\t%f\t%s\t%C@\t%#m\n')));
+					array('find', '-L', $this->workdir, '-mindepth', '1', '-maxdepth', '1', '!', '-type','l', '!', '-iname','".*"', '-printf', '%Y\t%f\t%s\t%C@\t%#m\n')));
+					
+//					array('find', $this->workdir, '-mindepth', '1', '-maxdepth', '1', '-printf', '%y\t%f\t%s\t%C@\t%#m\n')));
 
 		if(!$this->xmlrpc->success()) {$this->output['errcode'] = 10; return false;}
 		$this->output['listing'] = array();
