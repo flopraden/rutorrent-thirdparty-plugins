@@ -157,7 +157,7 @@ class FLM {
 	public function dirlist() {
 
 		$this->xmlrpc->addCommand( new rXMLRPCCommand('execute_capture', 
-					array('find', '-L', $this->workdir, '-mindepth', '1', '-maxdepth', '1', '!', '-type','l', '!', '-iname','".*"', '-printf', '%Y\t%f\t%s\t%C@\t%#m\n')));
+					array('find', '-L', $this->workdir, '-mindepth', '1', '-maxdepth', '1', '!', '-type','l', '-printf', '%Y\t%f\t%s\t%C@\t%#m\n')));
 					
 //					array('find', $this->workdir, '-mindepth', '1', '-maxdepth', '1', '-printf', '%y\t%f\t%s\t%C@\t%#m\n')));
 
@@ -171,6 +171,8 @@ class FLM {
 			$f = array();
 
 			list($fd, $f['name'], $f['size'], $f['time'], $f['perm']) = explode("\t", trim($fileline));
+			// Remove special hidden unix files
+			if($f['name'][0] == '.') { continue;}
 
 			$f['name'] = stripslashes($f['name']);
 			$f['time'] = intval($f['time']);
